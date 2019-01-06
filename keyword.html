@@ -25,11 +25,19 @@ body {
 			</div>
 		</div>
 		<div class="layui-form-item">
-			<label class="layui-form-label">次数</label>
+			<label class="layui-form-label">编号</label>
 			<div class="layui-input-block">
 				<input type="number" id="times" min="1" required
 					lay-verify="required" placeholder="请输入正整数" autocomplete="off"
 					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item" id="pwdDiv" style="display:none">
+			<label class="layui-form-label">密码</label>
+			<div class="layui-input-block">
+				<input type="password" id="password" required
+					lay-verify="required" placeholder="请输入密码" autocomplete="off"
+					class="layui-input" value="0000">
 			</div>
 		</div>
 		<div class="layui-form-item">
@@ -41,8 +49,8 @@ body {
 		</div>
 		<div class="layui-form-item">
 			<div class="layui-input-block">
-				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="switchChange(1)">计算1</button>
-				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="switchChange(2)">计算2</button>
+				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="switchChange(1)">临时密码</button>
+				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="switchChange(2)">最终密码</button>
 			</div>
 		</div>
 	</form>
@@ -69,7 +77,8 @@ function count(){
 	year = parseInt(year);
 	month = parseInt(month);
 	day = parseInt(day);
-	var times = parseInt($("#times").val());	
+	var times = parseInt($("#times").val());
+	var pwd = $("#password").val();			
 	if(year<1000||year>9999){
 		layer.alert("年份输入不合法");
 		return;
@@ -85,7 +94,16 @@ function count(){
 	if((times<1)||((times+'').indexOf('.')!=-1)){
 		layer.alert("请输入正整数");
 		return;
-	}	
+	}
+	if(!$("#pwdDiv").is(':hidden')){
+		if(pwd){
+			if(pwd != '3327'){
+				layer.alert("密码错误");
+				$("#password").val("");
+				return;
+			}
+		}	
+	}
 	var source = year*7+month*5+day*3+times;
 	var result;
 	if(switchOn == 1){
@@ -109,7 +127,18 @@ function Encrypt_2(source){
 
 function switchChange(sw)
 {
-	switchOn = sw;
+	if(sw == 1){
+		$("#pwdDiv").hide();
+		$("#password").val("0000");
+		switchOn = 1;
+	} else if(sw == 2){
+		if($("#pwdDiv").is(':hidden')){
+			$("#pwdDiv").show();
+			$("#password").val("");	
+		} else {
+			switchOn = 2;			
+		}
+	}
 }
 </script>
 </body>
