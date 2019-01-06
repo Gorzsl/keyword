@@ -86,7 +86,7 @@ function count(){
 		layer.alert("请输入正整数");
 		return;
 	}	
-	var source = Math.pow(year, month)*day+times;
+	var source = year*7+month*5+day*3+times;
 	var result;
 	if(switchOn == 1){
 		result = Encrypt_1(source);
