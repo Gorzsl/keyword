@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>运算</title>
+<script type="text/javascript"
+	src="./Res/layui/layui.all.js"></script>
+<script type="text/javascript" src="./Res/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="./Res/layui/css/layui.css">
+<style type="text/css">
+body {
+	margin-top: 30px;
+	margin-right: 30px;
+}
+</style>
+</head>
+<body>
+	<form action="" onSubmit="count()" target="rfFrame">
+		<div class="layui-form-item">
+			<label class="layui-form-label">时间</label>
+			<div class="layui-input-block">
+				<input type="text" id="time" required lay-verify="required"
+					placeholder="请输入时间" autocomplete="off" class="layui-input" readonly="readonly">				
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">次数</label>
+			<div class="layui-input-block">
+				<input type="number" id="times" min="1" required
+					lay-verify="required" placeholder="请输入正整数" autocomplete="off"
+					class="layui-input">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<label class="layui-form-label">结果</label>
+			<div class="layui-input-block">
+				<input type="text" id="result" class="layui-input"
+					readonly="readonly">
+			</div>
+		</div>
+		<div class="layui-form-item">
+			<div class="layui-input-block">
+				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="switchChange(1)">计算1</button>
+				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="switchChange(2)">计算2</button>
+			</div>
+		</div>
+	</form>
+	<iframe id="rfFrame" name="rfFrame" src="about:blank"
+		style="display: none;"></iframe>
+	<script type="text/javascript">
+var year;
+var month;
+var day;
+var switchOn = 1;
+layui.use('laydate', function(){
+  var laydate = layui.laydate;  
+  //执行一个laydate实例
+  laydate.render({
+    elem: '#time', //指定元素
+   	done: function(value, date, endDate){
+   	    year = date.year;
+   	    month = date.month;
+   	    day = date.date;
+   	  }
+  });
+});
+function count(){
+	year = parseInt(year);
+	month = parseInt(month);
+	day = parseInt(day);
+	var times = parseInt($("#times").val());	
+	if(year<1000||year>9999){
+		layer.alert("年份输入不合法");
+		return;
+	}
+	if(month<1||month>12){
+		layer.alert("月份输入不合法");
+		return;
+	}
+	if(day<1||day>31){
+		layer.alert("日期输入不合法");
+		return;
+	}
+	if((times<1)||((times+'').indexOf('.')!=-1)){
+		layer.alert("请输入正整数");
+		return;
+	}	
+	var source = Math.pow(year, month)*day+times;
+	var result;
+	if(switchOn == 1){
+		result = Encrypt_1(source);
+	} else if(switchOn == 2) {
+		result = Encrypt_2(source);
+	}
+	result = "00000000"+result;
+	result = result.substring(result.length-8, result.length);
+	$("#result").val(result);
+	layer.alert(result);
+}
+
+function Encrypt_1(source){
+	return Math.pow(source, 5)%45505151;
+}
+
+function Encrypt_2(source){
+	return Math.pow(source, 3)%59851249;
+}
+
+function switchChange(sw)
+{
+	switchOn = sw;
+}
+</script>
+</body>
+</html>
