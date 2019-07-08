@@ -13,6 +13,11 @@ body {
 	margin-top: 30px;
 	margin-right: 30px;
 }
+
+fieldset{
+	margin-left:95px;
+}
+
 </style>
 </head>
 <body>
@@ -39,6 +44,34 @@ body {
 					readonly="readonly">
 			</div>
 		</div>
+		
+		<fieldset class="layui-elem-field">
+		  <legend>CD-K</legend>
+		  <div class="layui-field-box">
+			<div class="layui-form-item">
+				<label class="layui-form-label">参数1</label>
+				<div class="layui-input-inline">
+				  <input type="number" id="p1" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+				</div>
+				<label class="layui-form-label">参数2</label>
+				<div class="layui-input-inline">
+				  <input type="number" id="p2" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+				</div>			
+			 </div>
+			 
+			 <div class="layui-form-item">
+				<label class="layui-form-label">参数3</label>
+				<div class="layui-input-inline">
+				  <input type="number" id="p3" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+				</div>
+				<label class="layui-form-label">参数4</label>
+				<div class="layui-input-inline">
+				  <input type="number" id="p4" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+				</div>			
+			 </div>
+		  </div>
+		</fieldset>
+		 
 		<div class="layui-form-item">
 			<div class="layui-input-block">
 				<button class="layui-btn" lay-submit lay-filter="formDemo" onclick="count(1)">日密码</button>
@@ -48,27 +81,6 @@ body {
 		</div>
 	</div>
     <div class="layui-tab-item">
-		 <div class="layui-form-item">
-			<label class="layui-form-label">参数1</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p1" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">参数2</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p2" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>			
-		 </div>
-		 
-		 <div class="layui-form-item">
-			<label class="layui-form-label">参数3</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p3" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">参数4</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p4" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>			
-		 </div>
 		 
 		 <div class="layui-form-item">
 			<label class="layui-form-label">参数10</label>
@@ -140,10 +152,6 @@ var year;
 var month;
 var day;
 var param1 = {
-	1:'',
-	2:'',
-	3:'',
-	4:'',
 	10:'33',
 	11:'3246',
 	12:'37',
@@ -156,10 +164,6 @@ var param1 = {
 	19:'235235',
 };
 var param2 = {
-	1:'',
-	2:'',
-	3:'',
-	4:'',
 	10:'35',
 	11:'3676',
 	12:'29',
@@ -172,10 +176,6 @@ var param2 = {
 	19:'235678',
 };
 var param3 = {
-	1:'',
-	2:'',
-	3:'',
-	4:'',
 	10:'31',
 	11:'3613',
 	12:'25',
@@ -187,7 +187,7 @@ var param3 = {
 	18:'36',
 	19:'333238',
 };
-var index = ['1','2','3','4','10','11','12','13','14','15','16','17','18','19'];
+var index = ['10','11','12','13','14','15','16','17','18','19'];
 var tab = 0;
 layui.use(['laydate','element'], function(){
   var laydate = layui.laydate;
@@ -196,7 +196,7 @@ layui.use(['laydate','element'], function(){
   laydate.render({
     elem: '#time', //指定元素
    	done: function(value, date, endDate){
-   	    year = date.year;
+   	    year = date.year%100;
    	    month = date.month;
    	    day = date.date;
    	  }
@@ -240,7 +240,7 @@ function count(type){
 	month = parseInt(month);
 	day = parseInt(day);
 	var pwd = $("#password").val();			
-	if(year<1000||year>9999){
+	if(year<0||year>99){
 		layer.alert("年份输入不合法");
 		return;
 	}
@@ -265,19 +265,25 @@ function count(type){
 		alert("参数不全");
 		return;
 	}
-	var d930 = ((month*year*parseInt(param[10])+parseInt(param[11])) * parseInt(param[12]) - parseInt(param[13])) * parseInt(param[1]);
-	var d940 = (year*day+parseInt(param[14])) * parseInt(param[15]) - parseInt(param[16]) + parseInt(param[2]);
-	var d950 = (day*month + parseInt(param[17])) * parseInt(param[18]) - parseInt(param[19]) + parseInt(param[3]);
+	
+	var param_1 = $("#p1").val();
+	var param_2 = $("#p2").val();
+	var param_3 = $("#p3").val();
+	var param_4 = $("#p4").val();
+	
+	var d930 = ((month*year*parseInt(param[10])+parseInt(param[11])) * parseInt(param[12]) - parseInt(param[13])) * parseInt(param_1);
+	var d940 = (year*day+parseInt(param[14])) * parseInt(param[15]) - parseInt(param[16]) + parseInt(param_2);
+	var d950 = (day*month + parseInt(param[17])) * parseInt(param[18]) - parseInt(param[19]) + parseInt(param_3);
 	console.log(d930);
 	console.log(d940);
 	console.log(d950);	
 	var result;
 	if(type == 1){
-		result = d930 + d940 + d950 + parseInt(param[4]);
+		result = d930 + d940 + d950 + parseInt(param_4);
 	} else if(type == 2){
-		result = d930 + d940 + d950 + parseInt(param[4]);
+		result = d930 + d940 + d950 + parseInt(param_4);
 	} else if(type == 3){
-		result = d930 + parseInt(param[1]) + parseInt(param[2]) + parseInt(param[4]) - parseInt(param[3]);
+		result = d930 + parseInt(param_1) + parseInt(param_2) + parseInt(param_4) - parseInt(param_3);
 	}
 	console.log(result);
 	$("#result").val(result);
