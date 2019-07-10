@@ -94,57 +94,13 @@ fieldset{
     <div class="layui-tab-item">
 		 
 		 <div class="layui-form-item">
-			<label class="layui-form-label">参数10</label>
+			<label class="layui-form-label">参数5</label>
 			<div class="layui-input-inline">
-			  <input type="number" id="p10" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+			  <input type="number" id="p5" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
 			</div>
-			<label class="layui-form-label">参数11</label>
+			<label class="layui-form-label">参数6</label>
 			<div class="layui-input-inline">
-			  <input type="number" id="p11" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-		 </div>
-		 
-		 <div class="layui-form-item">
-			<label class="layui-form-label">参数12</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p12" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">参数13</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p13" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-		 </div>
-		 
-		 <div class="layui-form-item">
-			<label class="layui-form-label">参数14</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p14" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">参数15</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p15" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-		 </div>
-		 
-		 <div class="layui-form-item">
-			<label class="layui-form-label">参数16</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p16" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">参数17</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p17" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-		 </div>
-		 
-		 <div class="layui-form-item">
-			<label class="layui-form-label">参数18</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p18" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
-			</div>
-			<label class="layui-form-label">参数19</label>
-			<div class="layui-input-inline">
-			  <input type="number" id="p19" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
+			  <input type="number" id="p6" min="1" required lay-verify="required" placeholder="请输入正整数" autocomplete="off" class="layui-input">
 			</div>
 		 </div>
 		 
@@ -163,42 +119,17 @@ var year;
 var month;
 var day;
 var param1 = {
-	10:'33',
-	11:'3246',
-	12:'37',
-	13:'4568',
-	14:'5482',
-	15:'31',
-	16:'2355',
-	17:'542872',
-	18:'39',
-	19:'235235',
+	5:'33',
+	6:'5246',
 };
 var param2 = {
-	10:'35',
-	11:'3676',
-	12:'29',
-	13:'4589',
-	14:'6832',
-	15:'34',
-	16:'2765',
-	17:'534872',
-	18:'38',
-	19:'235678',
+	5:'39',
+	6:'6676',
 };
 var param3 = {
-	10:'31',
-	11:'3613',
-	12:'25',
-	13:'2179',
-	14:'3472',
-	15:'37',
-	16:'2346',
-	17:'528652',
-	18:'36',
-	19:'333238',
+	5:'31',
+	6:'3013',
 };
-var index = ['10','11','12','13','14','15','16','17','18','19'];
 var tab = 0;
 layui.use(['laydate','element'], function(){
   var laydate = layui.laydate;
@@ -233,13 +164,11 @@ layui.use(['laydate','element'], function(){
 
 });
 
-function allIn(p){//判断参数是否完全	
-	for(var i=0; i<index.length; i++){
-		if(!p[index[i]]){
-			return false;
-		}
+function allIn(p){//判断参数是否完全
+	if(p[5] && p[6]){
+		return true;
 	}
-	return true;
+	return false;
 }
 
 function count(type){
@@ -250,7 +179,7 @@ function count(type){
 	year = parseInt(year);
 	month = parseInt(month);
 	day = parseInt(day);
-	var pwd = $("#password").val();			
+	//var pwd = $("#password").val();			
 	if(year<0||year>99){
 		layer.alert("年份输入不合法");
 		return;
@@ -277,24 +206,39 @@ function count(type){
 		return;
 	}
 	
-	var param_1 = $("#p1").val();
-	var param_2 = $("#p2").val();
-	var param_3 = $("#p3").val();
-	var param_4 = $("#p4").val();
+	for(var item in param){
+		param[item] = parseInt(param[item]);
+	}
 	
-	var d930 = ((month*year*parseInt(param[10])+parseInt(param[11])) * parseInt(param[12]) - parseInt(param[13])) * parseInt(param_1);
-	var d940 = (year*day+parseInt(param[14])) * parseInt(param[15]) - parseInt(param[16]) + parseInt(param_2);
-	var d950 = (day*month + parseInt(param[17])) * parseInt(param[18]) - parseInt(param[19]) + parseInt(param_3);
-	console.log(d930);
-	console.log(d940);
-	console.log(d950);	
+	var param_1 = parseInt($("#p1").val());
+	var param_2 = parseInt($("#p2").val());
+	var param_3 = parseInt($("#p3").val());
+	var param_4 = parseInt($("#p4").val());
+	
+	var dayB1F = year*day*param[5];//日变化1辅助
+	var dayBF2 = parseInt(dayB1F/month);//日变化辅助2
+	var dayB1Final = dayBF2 + param_2;//日变化1最终值
+	var dayB2F = day*day*day + month*month;//日变化2辅助
+	var dayB2F2 = dayB2F * day * day;//日变化2辅助2
+	var dayB2F3 = dayB2F2 - month*month*month;//日变化2辅助3
+	var dayB2F4 = dayB2F3 + param_4;//日变化2辅助4
+	var dayB2Final = dayB2F4 * param_1;//日变化2最终值
+	
+	var dayF5 = dayB1Final + dayB2Final;//日辅助5
+	var yearF5 = dayF5 + param_3;//年辅助5
+	var monthF5 = yearF5 = param[6];//月辅助5
+	
+	var dayFinal = dayF5 + param_4;//日最终
+	var yearFinal = yearF5 + param_4;//年最终
+	var monthFinal = monthF5 + param_4;//月最终
+	
 	var result;
 	if(type == 1){
-		result = d930 + d940 + d950 + parseInt(param_4);
+		result = dayFinal;
 	} else if(type == 2){
-		result = d930 + d940 + d950 + parseInt(param_4);
+		result = monthFinal;
 	} else if(type == 3){
-		result = d930 + parseInt(param_1) + parseInt(param_2) + parseInt(param_4) - parseInt(param_3);
+		result = yearFinal;
 	}
 	console.log(result);
 	$("#result").val(result);
@@ -303,9 +247,8 @@ function count(type){
 
 function setParam(){
 	var param = {};
-	for(var i=0; i<index.length; i++){
-		param[index[i]] = $("#p"+index[i]).val();
-	}	
+	param[5] = $("#p5").val();
+	param[6] = $("#p6").val();
 	if(allIn(param)){
 		if(tab == 1){
 			param1 = param;
