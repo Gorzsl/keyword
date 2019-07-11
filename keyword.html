@@ -217,7 +217,7 @@ function count(type){
 	
 	var dayB1F = year*day*param[5];//日变化1辅助
 	var dayBF2 = parseInt(dayB1F/month);//日变化辅助2
-	var dayB1Final = dayBF2 + param_2;//日变化1最终值
+	var dayB1Final = dayBF2 * param_2;//日变化1最终值
 	var dayB2F = day*day*day + month*month;//日变化2辅助
 	var dayB2F2 = dayB2F * day * day;//日变化2辅助2
 	var dayB2F3 = dayB2F2 - month*month*month;//日变化2辅助3
